@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import Header from './Header';
+import GlobalBoard from './GlobalBoard';
 
 class App extends React.Component{
   render() {
@@ -11,7 +12,8 @@ class App extends React.Component{
         <style jsx>{`
           font-family: Helvetica;
         `}</style>
-        UltimateTicTacToe
+        <Header/>
+        <GlobalBoard/>
   
       </div>
     );
