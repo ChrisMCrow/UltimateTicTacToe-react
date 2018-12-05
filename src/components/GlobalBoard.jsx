@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 
 class GlobalBoard extends React.Component {
   constructor(props) {
-    console.log('Global Board props: ', props);
     super(props);
+  }
+  componentDidUpdate() {
+    console.log('Global Board props: ', this.props);
   }
 
   render() {
@@ -72,7 +74,7 @@ class GlobalBoard extends React.Component {
 }
 
 GlobalBoard.propTypes = {
-  boardData: PropTypes.object,
+  boardData: PropTypes.array,
   dispatch: PropTypes.func,
   gameStatus: PropTypes.object
 };

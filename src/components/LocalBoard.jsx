@@ -5,32 +5,45 @@ import { connect } from 'react-redux';
 
 function LocalBoard(props) {
   function handleMark(square) {
-    if (props.localData.position[square] === null) {
-      const { dispatch } = props;
-      const boardAction = {
-        type: 'MARK',
-        squareId: square,
-        boardId: props.boardId,
-        mark: props.gameStatus.playerTurn
-      };
-      dispatch(boardAction);
-      checkWin();
-      dispatch({type: 'NEXT_TURN'});
+    if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null) {
+      if (props.localData.position[square] === null) {
+        const { dispatch } = props;
+        const boardAction = {
+          type: 'MARK',
+          squareId: square,
+          boardId: props.boardId,
+          mark: props.gameStatus.playerTurn
+        };
+        dispatch(boardAction);
+        checkWin();
+        const gameAction = {
+          type: 'NEXT_TURN',
+          lastSquare: square
+        };
+        dispatch(gameAction);
+      }
     }
   }
 
   function checkWin() {
     let square = props.localData.position;
     let winConditions = [
-      [0, 1, 2], 
-      [3, 4, 5], 
-      [6, 7, 8], 
-      [0, 3, 6], 
-      [1, 4, 7], 
-      [2, 5, 8], 
-      [0, 4, 8], 
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
       [2, 4, 6]
     ];
+    const { dispatch } = props;
+    let action = {
+      type: 'LOCAL_WINNER',
+      boardId: props.boardId,
+      mark: null
+    };
+    let targetDiv = document.getElementById(`board${props.boardId}`);
     for (let i = 0; i < winConditions.length; i++) {
       let threeInARow = 0;
       for (let j = 0; j <= 2; j++) {
@@ -39,15 +52,12 @@ function LocalBoard(props) {
         }
       }
       if (threeInARow === 3) {
-        const { dispatch } = props;
-        const action = {
-          type: 'LOCAL_WINNER',
-          boardId: props.boardId,
-          mark: props.gameStatus.playerTurn
-        };
-        let targetDiv = document.getElementById(`board${props.boardId}`);
-        console.log(targetDiv);
-        targetDiv.appendChild(document.createTextNode(`${props.gameStatus.playerTurn}`));
+        action.mark = props.gameStatus.playerTurn;
+        targetDiv.appendChild(document.createTextNode(`${action.mark}`));
+        return dispatch(action);
+      } else if (!props.localData.position.includes(null)) {
+        action.mark = '🐱';
+        targetDiv.innerHTML = '<img src="https://img.icons8.com/android/96/f1c40f/cat.png" className="cat">';
         return dispatch(action);
       }
     }
@@ -91,6 +101,9 @@ function LocalBoard(props) {
           max-width: 265px;
           color: blue;
           z-index: 1;
+        }
+        .cat {
+          height: 200%;
         }
         @media screen and (min-width: 992px) {
           .board-winner {

@@ -61,13 +61,13 @@ export default (state = initialState, action) => {
   switch (action.type) {
   case 'MARK': {
     const { squareId, boardId, mark } = action;
-    let newState = Object.assign({}, initialState);
+    let newState = state.slice();
     newState[boardId].position[squareId] = mark;
     return newState;
   }
   case 'LOCAL_WINNER': {
     const { boardId, mark } = action;
-    let newState = Object.assign({}, initialState);
+    let newState = state.slice();
     newState[boardId].boardWinner = mark;
     return newState;
   }
