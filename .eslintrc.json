@@ -15,6 +15,8 @@
     "react"
   ],
   "rules": {
+    "no-unused-vars": 0,
+    "no-console": 0,
     "react/no-direct-mutation-state": 2,
     "react/prefer-stateless-function": 2,
     "react/no-unused-state": 2,

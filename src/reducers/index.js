@@ -1,11 +1,9 @@
 
-// import selectedTicketReducer from './selected-ticket-reducer';
-// import ticketListReducer from './ticket-list-reducer';
+import boardReducer from './boardReducer';
 import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
-  // selectedTicket: selectedTicketReducer,
-  // masterTicketList: ticketListReducer
+  boardData: boardReducer
 });
 
 export default rootReducer;

@@ -1,22 +1,18 @@
-
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-function Square() {
+function Square(props) {
   return (
     <div>
-      <ul>
-      <li>Square</li>
-      <li>Square</li>
-      <li>Square</li>
-      <li>Square</li>
-      <li>Square</li>        <li>Square</li>
-      <li>Square</li>
-      <li>Square</li>
-      <li>Square</li>
-      <li>Square</li>
-      </ul>
+      {props.localPositions[props.squareId]}
     </div>
   );
 }
 
-export default Square;
+Square.propTypes = {
+  localPositions: PropTypes.array,
+  squareId: PropTypes.number
+};
+
+export default connect()(Square);
