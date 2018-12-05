@@ -10,9 +10,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = createStore(rootReducer);
 
-let unsubscribe = store.subscribe(() => 
-  console.log(store.getState())
-);
+// let unsubscribe = store.subscribe(() => 
+//   console.log()
+// );
 
 const render = (Component) => {
   ReactDOM.render(

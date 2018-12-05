@@ -4,10 +4,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case 'MARK': {
+  case 'NEXT_TURN': {
     let newState = Object.assign({}, state);
     newState.playerTurn = (newState.playerTurn === 'X' ?  'O' : 'X');
-    console.log(newState.playerTurn);
     return newState;
   }
   default: {

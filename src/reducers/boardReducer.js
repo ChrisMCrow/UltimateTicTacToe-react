@@ -1,62 +1,53 @@
 const initialState = [
   {
-    boardPlayable: true,
     boardWinner: null,
     position: [null, null, null,
       null, null, null,
       null, null, null]
   },
   {
-    boardPlayable: true,
     boardWinner: null,
     position: [null, null, null,
       null, null, null,
       null, null, null]
   },
   {
-    boardPlayable: true,
     boardWinner: null,
     position: [null, null, null,
       null, null, null,
       null, null, null]
   },
   {
-    boardPlayable: true,
     boardWinner: null,
     position: [null, null, null,
       null, null, null,
       null, null, null]
   },
   {
-    boardPlayable: true,
     boardWinner: null,
     position: [null, null, null,
       null, null, null,
       null, null, null]
   },
   {
-    boardPlayable: true,
     boardWinner: null,
     position: [null, null, null,
       null, null, null,
       null, null, null]
   },
   {
-    boardPlayable: true,
     boardWinner: null,
     position: [null, null, null,
       null, null, null,
       null, null, null]
   },
   {
-    boardPlayable: true,
     boardWinner: null,
     position: [null, null, null,
       null, null, null,
       null, null, null]
   },
   {
-    boardPlayable: true,
     boardWinner: null,
     position: [null, null, null,
       null, null, null,
@@ -72,6 +63,12 @@ export default (state = initialState, action) => {
     const { squareId, boardId, mark } = action;
     let newState = Object.assign({}, initialState);
     newState[boardId].position[squareId] = mark;
+    return newState;
+  }
+  case 'LOCAL_WINNER': {
+    const { boardId, mark } = action;
+    let newState = Object.assign({}, initialState);
+    newState[boardId].boardWinner = mark;
     return newState;
   }
   default: {
