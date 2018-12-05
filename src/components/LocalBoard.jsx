@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 function LocalBoard(props) {
   let bgColor;
   function handleMark(square) {
-    if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null) {
+    // if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null) {
       if (props.localData.position[square] === null) {
         const { dispatch } = props;
         const boardAction = {
@@ -23,7 +23,7 @@ function LocalBoard(props) {
         };
         dispatch(gameAction);
       }
-    }
+    // }
   }
 
   function checkWin() {
@@ -89,18 +89,20 @@ function LocalBoard(props) {
         #local-board {
           margin: 5px 0 0 5px;
         }
-        #l
         .board-winner {
           position: absolute;
-          width: 100%;
           text-align: center;
-          padding: 0 auto;
-          top: -60px;
-          left: 0;
-          font-size: 30vw;
-          max-width: 265px;
+          left: 20px;
+          right: auto;
+          font-size: 265px;
           color: blue;
           z-index: 1;
+          line-height: 1;
+          width: 200px;
+
+        }
+        .square-wrapper {
+          position: relative;
         }
         .cat {
           height: 200%;
@@ -120,7 +122,7 @@ function LocalBoard(props) {
         
       `}</style>
       {props.localData.position.map((square, index) => (
-        <div key={index} onClick={() => { handleMark(index); }}>
+        <div className='square-wrapper' key={index} onClick={() => { handleMark(index); }}>
           <div className='board-winner' id={`board${props.boardId}`}>
           </div>
           <div className='player-mark square' id={'lc-board' + index}>

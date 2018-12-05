@@ -47,7 +47,6 @@ class GlobalBoard extends React.Component {
           #gl-board3, #gl-board4, #gl-board5 {
             border-top: 5px solid black;
             border-bottom: 5px solid black;
-            
           }
           .wrapper div:nth-child(3n + 2) {
             border-left: 5px solid black;
