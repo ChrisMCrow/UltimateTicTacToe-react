@@ -6,68 +6,64 @@ import { connect } from 'react-redux';
 class GlobalBoard extends React.Component {
   constructor(props) {
     super(props);
+    this.bgColor;
   }
+  
   componentDidUpdate() {
     console.log('Global Board props: ', this.props);
+    for (let i = 0; i < 8; i++) {
+      if (this.props.boardData[i].boardWinner === 'X') {
+        this.bgColor = 'x-condition';
+      } else if (this.props.boardData[i].boardWinner === 'O') {
+        this.bgColor = 'o-condition';
+      } else if (!(this.props.boardData[i].position.includes(null))) {
+        this.bgColor = 'tie-condition';
+      } else if (this.props.gameStatus.lastSquare === this.props.boardData[i].boardId || this.props.gameStatus.lastSquare === null) {
+        this.bgColor = 'mark-playable';
+      } else {
+        this.bgColor = '';
+      }
+      console.log(this.bgColor);
+    }
   }
 
   render() {
     return (
-      <div className = 'container'>
+      <div className = 'wrapper'>
         <style jsx>{`
           h3 {
             text-align: center;
             margin-bottom: 5px;
           }
-          .center-horizontal {
+          .wrapper {
+            width: 800px;
+            margin: 0 auto;
+          }
+          .local-board {
+            float: left;
+            width: 260px;
+            height: 260px;
+          }
+          #gl-board3, #gl-board4, #gl-board5 {
             border-top: 5px solid black;
             border-bottom: 5px solid black;
+            
           }
-          .center-vertical {
+          .wrapper div:nth-child(3n + 2) {
             border-left: 5px solid black;
             border-right: 5px solid black;
           }
-          .row {
-            margin: 0;
-            padding: 0;
-          }
-          .col-4 {
-            max-width: 270px !important;
-          }
         `}</style>
-        <div className='row'>
-          <div className='col-4'>
-            <LocalBoard gameStatus={this.props.gameStatus} dispatch={this.props.dispatch} localData = {this.props.boardData[0]} boardId={0}/>
+        {this.props.boardData.map((board, index) => (
+          <div key={index} className={this.bgColor + ' local-board'} id={'gl-board' + index}>
+            <LocalBoard
+              gameStatus={this.props.gameStatus}
+              dispatch={this.props.dispatch}
+              localData={board}
+              boardId={index}
+            />
           </div>
-          <div className='col-4 center-vertical'>
-            <LocalBoard gameStatus={this.props.gameStatus} dispatch={this.props.dispatch} localData = {this.props.boardData[1]} boardId={1}/>
-          </div>
-          <div className='col-4'>
-            <LocalBoard gameStatus={this.props.gameStatus} dispatch={this.props.dispatch} localData = {this.props.boardData[2]} boardId={2}/>
-          </div>                
-        </div>
-        <div className='row'>
-          <div className='col-4 center-horizontal'>
-            <LocalBoard gameStatus={this.props.gameStatus} dispatch={this.props.dispatch} localData = {this.props.boardData[3]} boardId={3}/>
-          </div>
-          <div className='col-4 center-horizontal center-vertical'>
-            <LocalBoard gameStatus={this.props.gameStatus} dispatch={this.props.dispatch} localData = {this.props.boardData[4]} boardId={4}/>
-          </div>
-          <div className='col-4 center-horizontal'>
-            <LocalBoard gameStatus={this.props.gameStatus} dispatch={this.props.dispatch} localData = {this.props.boardData[5]} boardId={5}/>
-          </div>                
-        </div>
-        <div className='row'>
-          <div className='col-4'>
-            <LocalBoard gameStatus={this.props.gameStatus} dispatch={this.props.dispatch} localData = {this.props.boardData[6]} boardId={6}/>
-          </div>
-          <div className='col-4 center-vertical'>
-            <LocalBoard gameStatus={this.props.gameStatus} dispatch={this.props.dispatch} localData = {this.props.boardData[7]} boardId={7}/>
-          </div>
-          <div className='col-4'>
-            <LocalBoard gameStatus={this.props.gameStatus} dispatch={this.props.dispatch} localData = {this.props.boardData[8]} boardId={8}/>
-          </div>                
-        </div>    
+        ))}
       </div>
     );
   }

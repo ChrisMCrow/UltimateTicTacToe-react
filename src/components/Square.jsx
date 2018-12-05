@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 function Square(props) {
   return (
     <div>
-      {props.localPositions[props.squareId]}
+      {/* {props.localPositions[props.squareId]} */}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 function LocalBoard(props) {
+  let bgColor;
   function handleMark(square) {
     if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null) {
       if (props.localData.position[square] === null) {
@@ -64,32 +65,31 @@ function LocalBoard(props) {
   }
 
   return (
-    <div id='local-board'>
+    <div className='local-wrapper' id='local-board'>
       <style jsx>{`
-        .center-horizontal {
+        #lc-board3, #lc-board4, #lc-board5 {
           border-top: 2px solid black;
           border-bottom: 2px solid black;
         }
-        .center-vertical {
+        #lc-board1, #lc-board4, #lc-board7 {
           border-left: 2px solid black;
           border-right: 2px solid black;
+        }
+        .player-mark {
+          padding-top: 10px;
+          font-size: 42px;
         }
         .square {
           text-align: center;
           height: 80px;
-          max-width: 80px;
+          width: 80px;
           cursor: pointer;
+          float: left;
         }
         #local-board {
-          padding: 10px;
+          margin: 5px 0 0 5px;
         }
-        .col-4 {
-          padding: 0 !important;
-        }
-        .player-mark {
-          padding-top: 15px;
-          font-size: 36px;
-        }
+        #l
         .board-winner {
           position: absolute;
           width: 100%;
@@ -105,74 +105,29 @@ function LocalBoard(props) {
         .cat {
           height: 200%;
         }
-        @media screen and (min-width: 992px) {
-          .board-winner {
-             font-size: 265px;
-          }
-        }        
+        .tie-condition {
+          background-color: lightgray;
+        } 
+        .x-condition {
+          background-color: pink;
+        }
+        .o-condition {
+          background-color: gold;
+        }
+        .mark-playable {
+          background-color: lightgreen;
+        }
+        
       `}</style>
-      <div className='board-winner' id={`board${props.boardId}`}>
-      </div>
-      <div className='row'>
-        <div className='col-4 square' onClick={() => { handleMark(0); }}>
-          <Square localPositions={props.localData.position} squareId={0} />
-          <div className='player-mark'>
-            {props.localData.position[0]}
+      {props.localData.position.map((square, index) => (
+        <div key={index} onClick={() => { handleMark(index); }}>
+          <div className='board-winner' id={`board${props.boardId}`}>
           </div>
+          <div className='player-mark square' id={'lc-board' + index}>
+            {square}
+          </div>        
         </div>
-        <div className='col-4 square center-vertical' onClick={() => { handleMark(1); }}>
-          <Square localPositions={props.localData.position} squareId={1} />
-          <div className='player-mark'>
-            {props.localData.position[1]}
-          </div>
-        </div>
-        <div className='col-4 square' onClick={() => { handleMark(2); }}>
-          <Square localPositions={props.localData.position} squareId={2} />
-          <div className='player-mark'>
-            {props.localData.position[2]}
-          </div>
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col-4 square center-horizontal' onClick={() => { handleMark(3); }}>
-          <Square localPositions={props.localData.position} squareId={3} />
-          <div className='player-mark'>
-            {props.localData.position[3]}
-          </div>
-        </div>
-        <div className='col-4 square center-horizontal center-vertical' onClick={() => { handleMark(4); }}>
-          <Square localPositions={props.localData.position} squareId={4} />
-          <div className='player-mark'>
-            {props.localData.position[4]}
-          </div>
-        </div>
-        <div className='col-4 square center-horizontal' onClick={() => { handleMark(5); }}>
-          <Square localPositions={props.localData.position} squareId={5} />
-          <div className='player-mark'>
-            {props.localData.position[5]}
-          </div>
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col-4 square' onClick={() => { handleMark(6); }}>
-          <Square localPositions={props.localData.position} squareId={6} />
-          <div className='player-mark'>
-            {props.localData.position[6]}
-          </div>
-        </div>
-        <div className='col-4 square center-vertical' onClick={() => { handleMark(7); }}>
-          <Square localPositions={props.localData.position} squareId={7} />
-          <div className='player-mark'>
-            {props.localData.position[7]}
-          </div>
-        </div>
-        <div className='col-4 square' onClick={() => { handleMark(8); }}>
-          <Square localPositions={props.localData.position} squareId={8} />
-          <div className='player-mark'>
-            {props.localData.position[8]}
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }
