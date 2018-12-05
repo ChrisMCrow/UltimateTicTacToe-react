@@ -68,10 +68,10 @@ const initialState = [
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case 'MARK_X': {
-    const { squareId, boardId } = action;
+  case 'MARK': {
+    const { squareId, boardId, mark } = action;
     let newState = Object.assign({}, initialState);
-    newState[boardId].position[squareId] = 'X';
+    newState[boardId].position[squareId] = mark;
     return newState;
   }
   default: {
