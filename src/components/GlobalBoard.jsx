@@ -8,20 +8,18 @@ class GlobalBoard extends React.Component {
     super(props);
     this.bgColor;
   }
-  
+
   componentDidUpdate() {
-    console.log('Global Board props: ', this.props);
-    for (let i = 0; i < 8; i++) {
-      if (this.props.boardData[i].boardWinner === 'X') {
-        this.bgColor = 'x-condition';
-      } else if (this.props.boardData[i].boardWinner === 'O') {
-        this.bgColor = 'o-condition';
-      } else if (!(this.props.boardData[i].position.includes(null))) {
-        this.bgColor = 'tie-condition';
-      } else if (this.props.gameStatus.lastSquare === this.props.boardData[i].boardId || this.props.gameStatus.lastSquare === null) {
-        this.bgColor = 'mark-playable';
+    for (let i = 0; i < this.props.boardData.length; i++) {
+      console.log(`Does ${this.props.gameStatus.lastSquare} equal ${this.props.boardData[i].position}`);
+      let target = document.getElementById(`gl-board${i}`)
+      if (this.props.boardData[i].boardWinner || !(this.props.boardData[i].position.includes(null))) {
+        target.classList.remove('mark-playable');
+        target.classList.add('not-playable');
+      } else if (this.props.gameStatus.lastSquare === i) {
+        target.classList.add('mark-playable');
       } else {
-        this.bgColor = '';
+        target.classList.remove('mark-playable');
       }
       console.log(this.bgColor);
     }
@@ -29,7 +27,7 @@ class GlobalBoard extends React.Component {
 
   render() {
     return (
-      <div className = 'wrapper'>
+      <div className='wrapper'>
         <style jsx>{`
           h3 {
             text-align: center;
@@ -52,9 +50,21 @@ class GlobalBoard extends React.Component {
             border-left: 5px solid black;
             border-right: 5px solid black;
           }
+          .not-playable {
+            background-color: lightgray;
+          } 
+          .x-condition {
+            background-color: pink;
+          }
+          .o-condition {
+            background-color: gold;
+          }
+          .mark-playable {
+            background-color: lightgreen;
+          }
         `}</style>
         {this.props.boardData.map((board, index) => (
-          <div key={index} className={this.bgColor + ' local-board'} id={'gl-board' + index}>
+          <div key={index} className={`${this.bgColor} local-board`} id={'gl-board' + index}>
             <LocalBoard
               gameStatus={this.props.gameStatus}
               dispatch={this.props.dispatch}

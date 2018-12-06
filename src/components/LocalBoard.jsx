@@ -7,22 +7,22 @@ function LocalBoard(props) {
   let bgColor;
   function handleMark(square) {
     // if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null) {
-      if (props.localData.position[square] === null) {
-        const { dispatch } = props;
-        const boardAction = {
-          type: 'MARK',
-          squareId: square,
-          boardId: props.boardId,
-          mark: props.gameStatus.playerTurn
-        };
-        dispatch(boardAction);
-        checkWin();
-        const gameAction = {
-          type: 'NEXT_TURN',
-          lastSquare: square
-        };
-        dispatch(gameAction);
-      }
+    if (props.localData.position[square] === null) {
+      const { dispatch } = props;
+      const boardAction = {
+        type: 'MARK',
+        squareId: square,
+        boardId: props.boardId,
+        mark: props.gameStatus.playerTurn
+      };
+      dispatch(boardAction);
+      checkWin();
+      const gameAction = {
+        type: 'NEXT_TURN',
+        lastSquare: square
+      };
+      dispatch(gameAction);
+    }
     // }
   }
 
@@ -106,20 +106,7 @@ function LocalBoard(props) {
         }
         .cat {
           height: 200%;
-        }
-        .tie-condition {
-          background-color: lightgray;
-        } 
-        .x-condition {
-          background-color: pink;
-        }
-        .o-condition {
-          background-color: gold;
-        }
-        .mark-playable {
-          background-color: lightgreen;
-        }
-        
+        }        
       `}</style>
       {props.localData.position.map((square, index) => (
         <div className='square-wrapper' key={index} onClick={() => { handleMark(index); }}>
