@@ -1,19 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import Header from './Header';
 import GlobalBoard from './GlobalBoard';
+import Header from './Header';
 
 function App() {
   return (
-    <div >
-      <style jsx>{`
-        font-family: Helvetica;
+    <div className='page'>
+      <style jsx global>{`
+        .page {
+          font-family: Helvetica;
+          background-color: #473A6B;
+        }
       `}</style>
-      <Header/>
-      <GlobalBoard/>
-
+      <Header />
+      <GlobalBoard />
     </div>
   );
 }
   
-export default connect()(App);
+export default App;

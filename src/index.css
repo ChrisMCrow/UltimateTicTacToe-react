@@ -1,0 +1,8 @@
+body {
+  background-color: black;
+  background-image: url('./assets/Space-Desktop.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  color: #0EFEE0;
+}

@@ -3,15 +3,19 @@ import LocalBoard from './LocalBoard';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+
 class GlobalBoard extends React.Component {
   constructor(props) {
     super(props);
     this.bgColor;
+    this.checkWin = this.checkWin.bind(this);
   }
+
+  
 
   componentDidUpdate() {
     for (let i = 0; i < this.props.boardData.length; i++) {
-      let target = document.getElementById(`gl-board${i}`)
+      let target = document.getElementById(`gl-board${i}`);
       if (this.props.boardData[i].boardWinner || !(this.props.boardData[i].position.includes(null))) {
         target.classList.remove('mark-playable');
         target.classList.add('not-playable');
@@ -41,10 +45,12 @@ class GlobalBoard extends React.Component {
       mark: null
     };
     let targetDiv = document.getElementById('gameBoard');
+    let boardWinnerCount = this.props.boardData.filter( lBoard => (lBoard.boardWinner !== null)).length;
     for (let i = 0; i < winConditions.length; i++) {
       let threeInARow = 0;
       for (let j = 0; j <= 2; j++) {
-        if (boardData[i].boardWinner === this.props.gameStatus.playerTurn) {
+        if (this.props.boardData[winConditions[i][j]].boardWinner === this.props.gameStatus.playerTurn) {
+          // console.log('i is ' + i,'one in a row for ', this.props.boardData[winConditions[i][j]],this.props.gameStatus.playerTurn);
           threeInARow++;
         }
       }
@@ -52,7 +58,9 @@ class GlobalBoard extends React.Component {
         action.mark = this.props.gameStatus.playerTurn;
         targetDiv.appendChild(document.createTextNode(`${action.mark}`));
         return dispatch(action);
-      } else if (!this.props.localData.position.includes(null)) {
+      } else if (boardWinnerCount >= 9) {
+        // if (!this.props.localData.position.includes(null))
+        console.log('Tie Game - Game Over');
         action.mark = '🐱';
         targetDiv.innerHTML = '<img src="https://img.icons8.com/android/96/f1c40f/cat.png" className="cat">';
         return dispatch(action);
@@ -71,8 +79,10 @@ class GlobalBoard extends React.Component {
           .wrapper {
             width: 800px;
             margin: 0 auto;
+            background-color: #473A6B;
           }
           .local-board {
+            background-color: #473A6B;
             float: left;
             width: 260px;
             height: 260px;
@@ -90,9 +100,9 @@ class GlobalBoard extends React.Component {
             text-align: center;
             left: 20px;
             right: auto;
-            font-size: 265px;
-            color: blue;
-            z-index: 1;
+            font-size: 1065px;
+            color: red;
+            z-index: 2;
             line-height: 1;
             width: 200px;
   
@@ -107,19 +117,20 @@ class GlobalBoard extends React.Component {
             background-color: gold;
           }
           .mark-playable {
-            background-color: lightgreen;
+            background-color: #97DE00;
           }
         `}</style>
         <div className='global-winner' id='gameBoard'>
         </div>
         {this.props.boardData.map((board, index) => (
-          <div key={index} className={`${this.bgColor} local-board`} id={'gl-board' + index}>
+          <div key={index} style={{backgroundColor: `${this.backgroundColor}`}} className={`${this.bgColor} local-board`} id={'gl-board' + index}>
             <LocalBoard
               gameStatus={this.props.gameStatus}
               dispatch={this.props.dispatch}
               localData={board}
               boardData={this.props.boardData}
               boardId={index}
+              globalCheckWin={this.checkWin}
             />
           </div>
         ))}
@@ -131,7 +142,8 @@ class GlobalBoard extends React.Component {
 GlobalBoard.propTypes = {
   boardData: PropTypes.array,
   dispatch: PropTypes.func,
-  gameStatus: PropTypes.object
+  gameStatus: PropTypes.object,
+  boardId: PropTypes.number
 };
 
 const mapStateToProps = state => {

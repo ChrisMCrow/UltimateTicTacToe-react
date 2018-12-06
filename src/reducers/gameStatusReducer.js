@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
   }
   case 'GLOBAL_WINNER': {
     const { mark } = action;
-    let newState = state.slice();
+    let newState = Object.assign({}, state);
     newState.gameWinner = mark;
     return newState;
   }  

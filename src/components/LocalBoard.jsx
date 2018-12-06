@@ -1,11 +1,11 @@
 import React from 'react';
-import Square from './Square';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 function LocalBoard(props) {
   function handleMark(square) {
-    if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null) {
+    let devMode = true; // true = place mark anywhere. false = game mode.
+    if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null || devMode) {
       if (props.localData.position[square] === null) {
         const { dispatch } = props;
         const boardAction = {
@@ -16,6 +16,7 @@ function LocalBoard(props) {
         };
         dispatch(boardAction);
         checkWin();
+        props.globalCheckWin();
         let gameAction = {
           type: 'NEXT_TURN',
           lastSquare: square
@@ -128,7 +129,8 @@ LocalBoard.propTypes = {
   localData: PropTypes.object,
   dispatch: PropTypes.func,
   gameStatus: PropTypes.object,
-  boardData: PropTypes.array
+  boardData: PropTypes.array,
+  globalCheckWin: PropTypes.func
 };
 
 export default LocalBoard;
