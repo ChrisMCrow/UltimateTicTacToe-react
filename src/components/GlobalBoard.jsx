@@ -11,14 +11,15 @@ class GlobalBoard extends React.Component {
     this.checkWin = this.checkWin.bind(this);
   }
 
-  
-
   componentDidUpdate() {
     for (let i = 0; i < this.props.boardData.length; i++) {
       let target = document.getElementById(`gl-board${i}`);
-      if (this.props.boardData[i].boardWinner || !(this.props.boardData[i].position.includes(null))) {
+      if (this.props.boardData[i].boardWinner) {
         target.classList.remove('mark-playable');
         target.classList.add('not-playable');
+      } else if (!(this.props.boardData[i].position.includes(null))) {
+        target.classList.remove('mark-playable');
+        target.classList.add('cat-condition');
       } else if (this.props.gameStatus.lastSquare === i || this.props.gameStatus.lastSquare === null) {
         target.classList.add('mark-playable');
       } else {
@@ -50,16 +51,19 @@ class GlobalBoard extends React.Component {
       let threeInARow = 0;
       for (let j = 0; j <= 2; j++) {
         if (this.props.boardData[winConditions[i][j]].boardWinner === this.props.gameStatus.playerTurn) {
-          // console.log('i is ' + i,'one in a row for ', this.props.boardData[winConditions[i][j]],this.props.gameStatus.playerTurn);
           threeInARow++;
         }
       }
       if (threeInARow === 3) {
         action.mark = this.props.gameStatus.playerTurn;
+        if (action.mark === 'X') {
+          targetDiv.classList.add('mark-x');
+        } else {
+          targetDiv.classList.add('mark-o');
+        }
         targetDiv.appendChild(document.createTextNode(`${action.mark}`));
         return dispatch(action);
       } else if (boardWinnerCount >= 9) {
-        // if (!this.props.localData.position.includes(null))
         console.log('Tie Game - Game Over');
         action.mark = '🐱';
         targetDiv.innerHTML = '<img src="https://img.icons8.com/android/96/f1c40f/cat.png" className="cat">';
@@ -78,38 +82,42 @@ class GlobalBoard extends React.Component {
           }
           .wrapper {
             width: 800px;
-            margin: 0 auto;
-            background-color: #473A6B;
+            margin: 0px auto 100px auto;
+            background-color: white;
           }
           .local-board {
-            background-color: #473A6B;
+            background-color: rgba(0, 0, 0, .8);
             float: left;
             width: 260px;
             height: 260px;
           }
           #gl-board3, #gl-board4, #gl-board5 {
-            border-top: 5px solid black;
-            border-bottom: 5px solid black;
+            border-top: 5px solid #97de00;
+            border-bottom: 5px solid #97de00;
           }
           #gl-board1, #gl-board4, #gl-board7 {
-            border-left: 5px solid black;
-            border-right: 5px solid black;
+            border-left: 5px solid #97de00;
+            border-right: 5px solid #97de00;
           }
+          #gl-board8 {
+            margin-bottom: 80px;
+          }  
           .global-winner {
             position: absolute;
             text-align: center;
-            left: 20px;
+            top: 340px;
+            left: 0;
             right: auto;
-            font-size: 1065px;
-            color: red;
+            font-size: 800px;
             z-index: 2;
             line-height: 1;
-            width: 200px;
-  
+            width: 100vw;
           }          
           .not-playable {
-            background-color: lightgray;
+            background-color: rgba(100, 71, 109, .8);
           } 
+          .cat-condition {
+          }
           .x-condition {
             background-color: pink;
           }
@@ -117,13 +125,24 @@ class GlobalBoard extends React.Component {
             background-color: gold;
           }
           .mark-playable {
-            background-color: #97DE00;
+            background-color: rgba(254, 207, 135, .8);
           }
+          .status-bar {
+            float: right;
+            text-align: right;
+          }
+          .mark-x {
+            color: #FF217C;
+          }
+          .mark-o {
+            color: #0EFEE0;
+          }
+  
         `}</style>
         <div className='global-winner' id='gameBoard'>
         </div>
         {this.props.boardData.map((board, index) => (
-          <div key={index} style={{backgroundColor: `${this.backgroundColor}`}} className={`${this.bgColor} local-board`} id={'gl-board' + index}>
+          <div key={index}  className={`${this.bgColor} local-board`} id={'gl-board' + index}>
             <LocalBoard
               gameStatus={this.props.gameStatus}
               dispatch={this.props.dispatch}

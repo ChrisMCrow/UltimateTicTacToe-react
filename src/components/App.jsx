@@ -1,20 +1,16 @@
 import React from 'react';
 import GlobalBoard from './GlobalBoard';
 import Header from './Header';
+import Status from './Status';
 
 function App() {
   return (
-    <div className='page'>
-      <style jsx global>{`
-        .page {
-          font-family: Helvetica;
-          background-color: #473A6B;
-        }
-      `}</style>
+    <div>
       <Header />
+      <Status />
       <GlobalBoard />
     </div>
   );
 }
-  
+
 export default App;

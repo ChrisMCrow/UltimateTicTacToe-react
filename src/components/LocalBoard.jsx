@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 function LocalBoard(props) {
   function handleMark(square) {
-    let devMode = true; // true = place mark anywhere. false = game mode.
+    let devMode = false; // true = place mark anywhere. false = game mode.
     if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null || devMode) {
       if (props.localData.position[square] === null) {
         const { dispatch } = props;
@@ -58,10 +58,14 @@ function LocalBoard(props) {
       if (threeInARow === 3) {
         action.mark = props.gameStatus.playerTurn;
         targetDiv.appendChild(document.createTextNode(`${action.mark}`));
+        if (action.mark === 'X') {
+          targetDiv.classList.add('mark-x');
+        } else {
+          targetDiv.classList.add('mark-o');
+        }
         return dispatch(action);
       } else if (!props.localData.position.includes(null)) {
-        action.mark = '🐱';
-        targetDiv.innerHTML = '<img src="https://img.icons8.com/android/96/f1c40f/cat.png" className="cat">';
+        action.mark = 'cat';
         return dispatch(action);
       }
     }
@@ -71,16 +75,17 @@ function LocalBoard(props) {
     <div className='local-wrapper' id='local-board'>
       <style jsx>{`
         #lc-board3, #lc-board4, #lc-board5 {
-          border-top: 2px solid black;
-          border-bottom: 2px solid black;
+          border-top: 2px solid #D90E79;
+          border-bottom: 2px solid #D90E79;
         }
         #lc-board1, #lc-board4, #lc-board7 {
-          border-left: 2px solid black;
-          border-right: 2px solid black;
+          border-left: 2px solid #D90E79;
+          border-right: 2px solid #D90E79;
         }
         .player-mark {
           padding-top: 10px;
           font-size: 42px;
+          color: #ccccc5;
         }
         .square {
           text-align: center;
@@ -95,28 +100,40 @@ function LocalBoard(props) {
         .board-winner {
           position: absolute;
           text-align: center;
-          left: 20px;
+          left: 0;
           right: auto;
           font-size: 265px;
-          color: blue;
           z-index: 1;
           line-height: 1;
-          width: 200px;
-
+          width: 240px;
         }
         .square-wrapper {
           position: relative;
         }
         .cat {
           height: 200%;
-        }        
+        } 
+        .mark-x {
+          color: #FF217C;
+        }
+        .mark-o {
+          color: #0EFEE0;
+        }
       `}</style>
       {props.localData.position.map((square, index) => (
         <div className='square-wrapper' key={index} onClick={() => { handleMark(index); }}>
           <div className='board-winner' id={`board${props.boardId}`}>
           </div>
           <div className='player-mark square' id={'lc-board' + index}>
-            {square}
+            {props.localData.boardWinner ? (
+              <p>{square}</p>
+            ) : (
+              square === 'X' ? (
+                <p className='mark-x'>{square}</p>
+              ) : (
+                <p className='mark-o'>{square}</p>
+              )
+            )}
           </div>
         </div>
       ))}
