@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 function LocalBoard(props) {
-  let bgColor;
   function handleMark(square) {
-    // if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null) {
+    if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null) {
     if (props.localData.position[square] === null) {
       const { dispatch } = props;
       const boardAction = {
@@ -17,13 +16,16 @@ function LocalBoard(props) {
       };
       dispatch(boardAction);
       checkWin();
-      const gameAction = {
+      let gameAction = {
         type: 'NEXT_TURN',
         lastSquare: square
       };
+      if (props.boardData[square].boardWinner) {
+        gameAction.lastSquare = null;
+      }
       dispatch(gameAction);
     }
-    // }
+    }
   }
 
   function checkWin() {
@@ -125,7 +127,8 @@ LocalBoard.propTypes = {
   boardId: PropTypes.number,
   localData: PropTypes.object,
   dispatch: PropTypes.func,
-  gameStatus: PropTypes.object
+  gameStatus: PropTypes.object,
+  boardData: PropTypes.array
 };
 
 export default LocalBoard;

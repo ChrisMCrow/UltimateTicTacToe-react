@@ -16,7 +16,7 @@ class GlobalBoard extends React.Component {
       if (this.props.boardData[i].boardWinner || !(this.props.boardData[i].position.includes(null))) {
         target.classList.remove('mark-playable');
         target.classList.add('not-playable');
-      } else if (this.props.gameStatus.lastSquare === i) {
+      } else if (this.props.gameStatus.lastSquare === i || this.props.gameStatus.lastSquare === null) {
         target.classList.add('mark-playable');
       } else {
         target.classList.remove('mark-playable');
@@ -69,6 +69,7 @@ class GlobalBoard extends React.Component {
               gameStatus={this.props.gameStatus}
               dispatch={this.props.dispatch}
               localData={board}
+              boardData={this.props.boardData}
               boardId={index}
             />
           </div>
