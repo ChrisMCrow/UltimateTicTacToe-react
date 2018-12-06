@@ -1,6 +1,7 @@
 const initialState = {
   playerTurn: 'X',
   lastSquare: null,
+  gameWinner: null
 };
 
 export default (state = initialState, action) => {
@@ -12,6 +13,12 @@ export default (state = initialState, action) => {
     newState.lastSquare = lastSquare;
     return newState;
   }
+  case 'GLOBAL_WINNER': {
+    const { mark } = action;
+    let newState = state.slice();
+    newState.gameWinner = mark;
+    return newState;
+  }  
   default: {
     return state;
   }

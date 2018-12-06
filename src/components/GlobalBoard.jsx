@@ -11,7 +11,6 @@ class GlobalBoard extends React.Component {
 
   componentDidUpdate() {
     for (let i = 0; i < this.props.boardData.length; i++) {
-      console.log(`Does ${this.props.gameStatus.lastSquare} equal ${this.props.boardData[i].position}`);
       let target = document.getElementById(`gl-board${i}`)
       if (this.props.boardData[i].boardWinner || !(this.props.boardData[i].position.includes(null))) {
         target.classList.remove('mark-playable');
@@ -21,7 +20,43 @@ class GlobalBoard extends React.Component {
       } else {
         target.classList.remove('mark-playable');
       }
-      console.log(this.bgColor);
+    }
+  }
+
+  checkWin() {
+    let winConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+    const { dispatch } = this.props;
+    let action = {
+      type: 'GLOBAL_WINNER',
+      boardId: this.props.boardId,
+      mark: null
+    };
+    let targetDiv = document.getElementById('gameBoard');
+    for (let i = 0; i < winConditions.length; i++) {
+      let threeInARow = 0;
+      for (let j = 0; j <= 2; j++) {
+        if (boardData[i].boardWinner === this.props.gameStatus.playerTurn) {
+          threeInARow++;
+        }
+      }
+      if (threeInARow === 3) {
+        action.mark = this.props.gameStatus.playerTurn;
+        targetDiv.appendChild(document.createTextNode(`${action.mark}`));
+        return dispatch(action);
+      } else if (!this.props.localData.position.includes(null)) {
+        action.mark = '🐱';
+        targetDiv.innerHTML = '<img src="https://img.icons8.com/android/96/f1c40f/cat.png" className="cat">';
+        return dispatch(action);
+      }
     }
   }
 
@@ -46,10 +81,22 @@ class GlobalBoard extends React.Component {
             border-top: 5px solid black;
             border-bottom: 5px solid black;
           }
-          .wrapper div:nth-child(3n + 2) {
+          #gl-board1, #gl-board4, #gl-board7 {
             border-left: 5px solid black;
             border-right: 5px solid black;
           }
+          .global-winner {
+            position: absolute;
+            text-align: center;
+            left: 20px;
+            right: auto;
+            font-size: 265px;
+            color: blue;
+            z-index: 1;
+            line-height: 1;
+            width: 200px;
+  
+          }          
           .not-playable {
             background-color: lightgray;
           } 
@@ -63,6 +110,8 @@ class GlobalBoard extends React.Component {
             background-color: lightgreen;
           }
         `}</style>
+        <div className='global-winner' id='gameBoard'>
+        </div>
         {this.props.boardData.map((board, index) => (
           <div key={index} className={`${this.bgColor} local-board`} id={'gl-board' + index}>
             <LocalBoard

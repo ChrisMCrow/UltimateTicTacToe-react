@@ -6,25 +6,25 @@ import { connect } from 'react-redux';
 function LocalBoard(props) {
   function handleMark(square) {
     if (props.gameStatus.lastSquare === props.boardId || props.gameStatus.lastSquare === null) {
-    if (props.localData.position[square] === null) {
-      const { dispatch } = props;
-      const boardAction = {
-        type: 'MARK',
-        squareId: square,
-        boardId: props.boardId,
-        mark: props.gameStatus.playerTurn
-      };
-      dispatch(boardAction);
-      checkWin();
-      let gameAction = {
-        type: 'NEXT_TURN',
-        lastSquare: square
-      };
-      if (props.boardData[square].boardWinner) {
-        gameAction.lastSquare = null;
+      if (props.localData.position[square] === null) {
+        const { dispatch } = props;
+        const boardAction = {
+          type: 'MARK',
+          squareId: square,
+          boardId: props.boardId,
+          mark: props.gameStatus.playerTurn
+        };
+        dispatch(boardAction);
+        checkWin();
+        let gameAction = {
+          type: 'NEXT_TURN',
+          lastSquare: square
+        };
+        if (props.boardData[square].boardWinner) {
+          gameAction.lastSquare = null;
+        }
+        dispatch(gameAction);
       }
-      dispatch(gameAction);
-    }
     }
   }
 
@@ -116,7 +116,7 @@ function LocalBoard(props) {
           </div>
           <div className='player-mark square' id={'lc-board' + index}>
             {square}
-          </div>        
+          </div>
         </div>
       ))}
     </div>
