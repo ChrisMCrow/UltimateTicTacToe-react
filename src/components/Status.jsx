@@ -10,7 +10,7 @@ class Status extends React.Component {
   getWinner() {
     let winner = (this.props.gameStatus.gameWinner);
     if (winner) {
-      return <h3 className='win-status'>The Winner is player " {winner} "!</h3>;
+      return <h3 className='win-status'>The Winner is player "{winner}"! Click the board to play again!</h3>;
     }
   }
   render() {

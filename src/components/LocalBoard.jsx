@@ -91,7 +91,6 @@ function LocalBoard(props) {
           text-align: center;
           height: 80px;
           width: 80px;
-          cursor: pointer;
           float: left;
         }
         #local-board {
@@ -100,12 +99,14 @@ function LocalBoard(props) {
         .board-winner {
           position: absolute;
           text-align: center;
+          top: -10px;
           left: 0;
           right: auto;
           font-size: 265px;
           z-index: 1;
           line-height: 1;
           width: 240px;
+          cursor: default;
         }
         .square-wrapper {
           position: relative;
@@ -115,9 +116,11 @@ function LocalBoard(props) {
         } 
         .mark-x {
           color: #FF217C;
+          cursor: default;
         }
         .mark-o {
           color: #0EFEE0;
+          cursor: default;
         }
       `}</style>
       {props.localData.position.map((square, index) => (

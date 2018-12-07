@@ -9,7 +9,7 @@ import rootReducer from './reducers/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './index.css';
-
+import 'animate.css/animate.css';
 
 const store = createStore(rootReducer);
 

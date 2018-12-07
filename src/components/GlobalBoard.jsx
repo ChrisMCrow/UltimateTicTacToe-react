@@ -56,17 +56,15 @@ class GlobalBoard extends React.Component {
       }
       if (threeInARow === 3) {
         action.mark = this.props.gameStatus.playerTurn;
-        if (action.mark === 'X') {
-          targetDiv.classList.add('mark-x');
-        } else {
-          targetDiv.classList.add('mark-o');
-        }
         targetDiv.appendChild(document.createTextNode(`${action.mark}`));
+        if (action.mark === 'X') {
+          targetDiv.classList.add('mark-x', 'animated', 'flash', 'infinite');
+        } else {
+          targetDiv.classList.add('mark-o', 'animated', 'flash', 'infinite');
+        }
         return dispatch(action);
       } else if (boardWinnerCount >= 9) {
-        console.log('Tie Game - Game Over');
-        action.mark = '🐱';
-        targetDiv.innerHTML = '<img src="https://img.icons8.com/android/96/f1c40f/cat.png" className="cat">';
+        action.mark = 'cat';
         return dispatch(action);
       }
     }
@@ -112,6 +110,7 @@ class GlobalBoard extends React.Component {
             z-index: 2;
             line-height: 1;
             width: 100vw;
+            cursor: pointer;
           }          
           .not-playable {
             background-color: rgba(100, 71, 109, .8);
@@ -126,6 +125,7 @@ class GlobalBoard extends React.Component {
           }
           .mark-playable {
             background-color: rgba(254, 207, 135, .8);
+            cursor: pointer;
           }
           .status-bar {
             float: right;
@@ -133,16 +133,18 @@ class GlobalBoard extends React.Component {
           }
           .mark-x {
             color: #FF217C;
+            text-shadow: 1px 1px 0px black, 1px -1px 0px black, -1px 1px 0 black, -1px -1px 0 black;
           }
           .mark-o {
             color: #0EFEE0;
+            text-shadow: 1px 1px 0px black, 1px -1px 0px black, -1px 1px 0 black, -1px -1px 0 black;
           }
   
         `}</style>
-        <div className='global-winner' id='gameBoard'>
+        <div className='global-winner' id='gameBoard' onClick={() => window.location.reload()}>
         </div>
         {this.props.boardData.map((board, index) => (
-          <div key={index}  className={`${this.bgColor} local-board`} id={'gl-board' + index}>
+          <div key={index}  className={`${this.bgColor} local-board mark-playable`} id={'gl-board' + index}>
             <LocalBoard
               gameStatus={this.props.gameStatus}
               dispatch={this.props.dispatch}
