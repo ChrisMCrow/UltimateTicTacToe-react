@@ -4,7 +4,8 @@ Week 18 Epicodus Project: Redux
 #### By **Chris Crow**
 
 ## Description
-A React-Redux application that allows two users to play Ultimate Tic-Tac-Toe against one another. 12/5/18
+A React-Redux application that allows two users to play Ultimate Tic-Tac-Toe against one another. For more information on Ultimate Tic-Tac-Toe, including how to play, see its Wikipedia page: https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe.
+12/5/18
 
 ## Setup/Installation Requirements
 
