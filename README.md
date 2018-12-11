@@ -9,7 +9,7 @@ A React-Redux application that allows two users to play Ultimate Tic-Tac-Toe aga
 
 ## Setup/Installation Requirements
 
-Visit the deployed site here:
+Visit the deployed site here: https://chrismcrow.github.io/ultimateTicTacToe-CreateReactApp
 
 -or-
 
